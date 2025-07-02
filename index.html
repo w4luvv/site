@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>4EXT-CHEATS - Premium Game Modifications</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <h2>4EXT-CHEATS</h2>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#products">Products</a></li>
+                <li><a href="#features">Features</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <div class="nav-buttons">
+                <a href="#products" class="btn-primary">Buy Now</a>
+                <a href="#" class="btn-discord">
+                    <i class="fab fa-discord"></i>
+                    Discord
+                </a>
+            </div>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1 class="hero-title">
+                    Welcome to <span class="gradient-text">4EXT-CHEATS</span>
+                </h1>
+                <p class="hero-subtitle">
+                    Premium cheat software for competitive multiplayer games. 
+                    Experience the next level of gaming with our advanced technology.
+                </p>
+                <div class="hero-stats">
+                    <div class="stat">
+                        <h3 id="active-users">0</h3>
+                        <p>Active Users</p>
+                    </div>
+                    <div class="stat">
+                        <h3 id="total-purchases">0</h3>
+                        <p>Purchases</p>
+                    </div>
+                    <div class="stat">
+                        <h3>0%</h3>
+                        <p>Uptime</p>
+                    </div>
+                </div>
+                <div class="hero-buttons">
+                    <a href="#products" class="btn-primary btn-large">
+                        <i class="fas fa-rocket"></i>
+                        Explore Products
+                    </a>
+                    <a href="#features" class="btn-secondary btn-large">
+                        <i class="fas fa-star"></i>
+                        View Features
+                    </a>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="hero-card">
+                    <div class="card-header">
+                        <div class="card-dots">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <div class="hero-feature">
+                            <i class="fas fa-shield-alt"></i>
+                            <span>Undetectable</span>
+                        </div>
+                        <div class="hero-feature">
+                            <i class="fas fa-bolt"></i>
+                            <span>High Performance</span>
+                        </div>
+                        <div class="hero-feature">
+                            <i class="fas fa-cog"></i>
+                            <span>Easy Setup</span>
+                        </div>
+                        <div class="hero-feature">
+                            <i class="fas fa-star"></i>
+                            <span>Premium Quality</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section id="products" class="products">
+        <div class="container">
+            <div class="section-header">
+                <h2>Our Products</h2>
+                <p>Choose from our premium selection of game modifications</p>
+            </div>
+            <!-- Category Filter Buttons -->
+            <div class="category-filters" style="display:flex;gap:1.2rem;justify-content:center;margin-bottom:2.2rem;">
+                <button class="category-btn active" data-category="all">All</button>
+                <button class="category-btn" data-category="basic">Basic</button>
+                <button class="category-btn" data-category="premium">Premium</button>
+                <button class="category-btn" data-category="private">Private</button>
+                <button class="category-btn" data-category="slaves">Slaves</button>
+            </div>
+            <div class="products-showcase">
+                <div class="product-card" id="roblox-card" data-category="basic">
+                    <div class="product-image">
+                        <div class="product-badge">Basic</div>
+                        <div class="game-logo">
+                            <i class="fas fa-gamepad"></i>
+                        </div>
+                        <div class="product-overlay">
+                            <div class="product-features">
+                                <span><i class="fas fa-crosshairs"></i> Aimbot</span>
+                                <span><i class="fas fa-eye"></i> ESP</span>
+                                <span><i class="fas fa-shield-alt"></i> Triggerbot</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="product-content">
+                        <span class="product-category-badge product-category-basic">Basic</span>
+                        <h3>Roblox Cheats</h3>
+                        <p>Advanced modifications for Roblox games with undetectable features and smooth performance.</p>
+                        <div class="product-specs">
+                            <div class="spec">
+                                <i class="fas fa-check-circle"></i>
+                                <span>Undetectable</span>
+                            </div>
+                            <div class="spec">
+                                <i class="fas fa-check-circle"></i>
+                                <span>Auto Update</span>
+                            </div>
+                            <div class="spec">
+                                <i class="fas fa-check-circle"></i>
+                                <span>Easy Setup</span>
+                            </div>
+                        </div>
+                        <div class="product-price">
+                            <span class="price">$29</span>
+                            <span class="period">/month</span>
+                        </div>
+                        <button class="btn-primary" onclick="openPaymentPopup('Roblox Cheats', 29)">Get Started</button>
+                    </div>
+                </div>
+
+                <div class="product-card" id="cs2-card" data-category="premium">
+                    <div class="product-image">
+                        <div class="product-badge premium">Premium</div>
+                        <div class="game-logo">
+                            <i class="fas fa-crosshairs"></i>
+                        </div>
+                        <div class="product-overlay">
+                            <div class="product-features">
+                                <span><i class="fas fa-crosshairs"></i> Aimbot</span>
+                                <span><i class="fas fa-eye"></i> ESP</span>
+                                <span><i class="fas fa-shield-alt"></i> Triggerbot</span>
+                                <span><i class="fas fa-bullseye"></i> Recoil</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="product-content">
+                        <span class="product-category-badge product-category-premium">Premium</span>
+                        <h3>CS2 Cheats</h3>
+                        <p>Professional-grade Counter-Strike 2 modifications with advanced features and streamproof protection.</p>
+                        <div class="product-specs">
+                            <div class="spec">
+                                <i class="fas fa-check-circle"></i>
+                                <span>Streamproof</span>
+                            </div>
+                            <div class="spec">
+                                <i class="fas fa-check-circle"></i>
+                                <span>Config System</span>
+                            </div>
+                            <div class="spec">
+                                <i class="fas fa-check-circle"></i>
+                                <span>Advanced Features</span>
+                            </div>
+                        </div>
+                        <div class="product-price">
+                            <span class="price">$59</span>
+                            <span class="period">/month</span>
+                        </div>
+                        <button class="btn-primary" onclick="openPaymentPopup('CS2 Cheats', 59)">Get Started</button>
+                    </div>
+                </div>
+
+                <!-- R6 Cheat Product Card -->
+                <div class="product-card" id="r6-card" data-category="premium">
+                    <div class="product-image">
+                        <div class="product-badge premium">Premium</div>
+                        <div class="game-logo">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <div class="product-overlay">
+                            <div class="product-features">
+                                <span><i class="fas fa-crosshairs"></i> Aimbot</span>
+                                <span><i class="fas fa-eye"></i> ESP</span>
+                                <span><i class="fas fa-user-secret"></i> No Recoil</span>
+                                <span><i class="fas fa-bolt"></i> Instant Kill</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="product-content">
+                        <span class="product-category-badge product-category-premium">Premium</span>
+                        <h3>R6 Cheat</h3>
+                        <p>Elite Rainbow Six Siege cheat with undetected aimbot, ESP, and exclusive features for competitive play.</p>
+                        <div class="product-specs">
+                            <div class="spec">
+                                <i class="fas fa-check-circle"></i>
+                                <span>Undetected</span>
+                            </div>
+                            <div class="spec">
+                                <i class="fas fa-check-circle"></i>
+                                <span>HWID Spoofer</span>
+                            </div>
+                            <div class="spec">
+                                <i class="fas fa-check-circle"></i>
+                                <span>Exclusive Features</span>
+                            </div>
+                        </div>
+                        <div class="product-price">
+                            <span class="price">$49</span>
+                            <span class="period">/month</span>
+                        </div>
+                        <button class="btn-primary" onclick="openPaymentPopup('R6 Cheat', 49)">Get Started</button>
+                    </div>
+                </div>
+                <!-- Zara Rent Product Card (Slaves category) -->
+                <div class="product-card" id="zara-card" data-category="slaves">
+                    <div class="product-image">
+                        <div class="product-badge" style="background:linear-gradient(90deg,#23234b 0%,#764ba2 100%);color:#fff;">Slaves</div>
+                        <div class="game-logo">
+                            <i class="fas fa-user-friends"></i>
+                        </div>
+                        <div class="product-overlay">
+                            <div class="product-features">
+                                <span><i class="fas fa-user-tag"></i> Zara Account Rental</span>
+                                <span><i class="fas fa-dollar-sign"></i> Cheapest on Market</span>
+                                <span><i class="fas fa-calendar"></i> 1 Year Access</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="product-content">
+                        <span class="product-category-badge product-category-slaves">Slaves</span>
+                        <h3>Zara Rent</h3>
+                        <p>Rent Zara The Biggest Slutty Slave In The Market Ran Thru By The Whole Gc</p>
+                        <div class="product-specs">
+                            <div class="spec">
+                                <i class="fas fa-check-circle"></i>
+                                <span>1 Year Access</span>
+                            </div>
+                            <div class="spec">
+                                <i class="fas fa-check-circle"></i>
+                                <span>Unlimited Use</span>
+                            </div>
+                        </div>
+                        <div class="product-price">
+                            <span class="price">$1</span>
+                            <span class="period">/year</span>
+                        </div>
+                        <button class="btn-primary" onclick="openPaymentPopup('Zara Rent', 1)">Get Started</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Payment Popup -->
+    <div class="payment-popup" id="payment-popup">
+      <div class="payment-popup-content">
+        <button class="popup-close" onclick="closePaymentPopup()">
+          <i class="fas fa-times"></i>
+        </button>
+        <h2 id="popup-title">Complete Purchase</h2>
+        <div class="popup-product-info">
+          <span id="popup-product-name">Product</span>
+          <span id="popup-product-price">$0</span>
+        </div>
+        <select class="payment-select" id="payment-method">
+          <option value="">Select payment method...</option>
+          <option value="paypal">PayPal</option>
+          <option value="giftcard">Gift Cards</option>
+        </select>
+        <input type="number" class="quantity-input" id="order-quantity" min="1" value="1" style="width:100%;margin-bottom:1.2rem;padding:1rem;border-radius:10px;border:1.5px solid #667eea;background:#181828;color:#fff;font-size:1.08rem;font-weight:600;" placeholder="Quantity" oninput="updateTotalPrice()">
+        <div class="popup-total-row" style="width:100%;display:flex;justify-content:space-between;align-items:center;margin-bottom:1.2rem;font-size:1.1rem;font-weight:700;color:#67e6dc;background:rgba(103,230,220,0.07);padding:0.7rem 1rem;border-radius:10px;">
+          <span>Total:</span>
+          <span id="popup-total-price">$0</span>
+        </div>
+        <input type="email" class="email-input" id="customer-email" placeholder="Enter your email address" required>
+        <button class="purchase-btn" onclick="processPurchase()">
+          <span class="btn-text">Purchase Now</span>
+          <span class="btn-icon">→</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Payment Blur Overlay -->
+    <div id="payment-blur" style="
+      position: fixed; left: 0; top: 0; width: 100vw; height: 100vh;
+      background: rgba(30, 30, 50, 0.55); backdrop-filter: blur(7px);
+      z-index: 9999; display: none; align-items: center; justify-content: center;
+      flex-direction: column;
+    ">
+      <div style="color: #fff; font-size: 2rem; font-weight: 700; margin-bottom: 1.2rem; letter-spacing: 0.03em;">
+        <span class="proceeding-spinner" style="display:inline-block;width:2.2rem;height:2.2rem;border:4px solid #764ba2;border-top:4px solid #fff;border-radius:50%;margin-right:1rem;vertical-align:middle;animation:spin 1s linear infinite;"></span>
+        Proceeding Payment…
+      </div>
+    </div>
+    <style>
+    @keyframes spin { 0% { transform: rotate(0); } 100% { transform: rotate(360deg); } }
+    #payment-blur.active { display: flex !important; }
+    </style>
+
+    <!-- Notification -->
+    <div class="purchase-notification-new" id="purchase-notification">
+      <div class="notif-icon" id="notif-icon"></div>
+      <div class="notif-content">
+        <div class="notif-title" id="notif-title">Success!</div>
+        <div class="notif-details" id="notif-details"></div>
+      </div>
+      <button class="notif-close" onclick="closePurchaseNotification()"><i class="fas fa-times"></i></button>
+    </div>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <div class="container">
+            <div class="section-header">
+                <h2>Advanced Features</h2>
+                <p>Experience the next level of gaming with our cutting-edge technology</p>
+            </div>
+            <div class="features-showcase">
+                <div class="feature-tabs">
+                    <button class="feature-tab active" data-feature="aimbot">
+                        <i class="fas fa-crosshairs"></i>
+                        <span>Aimbot</span>
+                    </button>
+                    <button class="feature-tab" data-feature="esp">
+                        <i class="fas fa-eye"></i>
+                        <span>ESP</span>
+                    </button>
+                    <button class="feature-tab" data-feature="triggerbot">
+                        <i class="fas fa-shield-alt"></i>
+                        <span>Triggerbot</span>
+                    </button>
+                    <button class="feature-tab" data-feature="recoil">
+                        <i class="fas fa-bullseye"></i>
+                        <span>Recoil Control</span>
+                    </button>
+                </div>
+                <div class="feature-content">
+                    <div class="feature-panel active" id="aimbot">
+                        <div class="feature-visual">
+                            <div class="feature-demo">
+                                <div class="demo-circle">
+                                    <div class="demo-target"></div>
+                                </div>
+                                <div class="demo-text">Precision Targeting</div>
+                            </div>
+                        </div>
+                        <div class="feature-info">
+                            <h3>Advanced Aimbot</h3>
+                            <p>Experience pixel-perfect accuracy with our advanced aimbot system. Features include:</p>
+                            <ul>
+                                <li>Silent and Flick aimbot modes</li>
+                                <li>Customizable sensitivity and FOV</li>
+                                <li>Bone selection (Head, Body, Custom)</li>
+                                <li>Smooth and natural movement</li>
+                                <li>Anti-recoil compensation</li>
+                            </ul>
+                            <a href="#products" class="btn-primary">Get Access</a>
+                        </div>
+                    </div>
+
+                    <div class="feature-panel" id="esp">
+                        <div class="feature-visual">
+                            <div class="feature-demo">
+                                <div class="demo-grid">
+                                    <div class="grid-item enemy"></div>
+                                    <div class="grid-item enemy"></div>
+                                    <div class="grid-item enemy"></div>
+                                </div>
+                                <div class="demo-text">Wall Penetration</div>
+                            </div>
+                        </div>
+                        <div class="feature-info">
+                            <h3>ESP & Wallhacks</h3>
+                            <p>See through walls and gain tactical advantage with our ESP system:</p>
+                            <ul>
+                                <li>Player outlines and health bars</li>
+                                <li>Distance and weapon indicators</li>
+                                <li>Customizable colors and styles</li>
+                                <li>Item and weapon ESP</li>
+                                <li>Radar integration</li>
+                            </ul>
+                            <a href="#products" class="btn-primary">Get Access</a>
+                        </div>
+                    </div>
+
+                    <div class="feature-panel" id="triggerbot">
+                        <div class="feature-visual">
+                            <div class="feature-demo">
+                                <div class="demo-trigger">
+                                    <div class="trigger-line"></div>
+                                    <div class="trigger-dot"></div>
+                                </div>
+                                <div class="demo-text">Auto Trigger</div>
+                            </div>
+                        </div>
+                        <div class="feature-info">
+                            <h3>Smart Triggerbot</h3>
+                            <p>Automatic firing when crosshair is on target with advanced features:</p>
+                            <ul>
+                                <li>Adjustable delay and sensitivity</li>
+                                <li>Team check and friendly fire protection</li>
+                                <li>Weapon-specific settings</li>
+                                <li>Burst fire and single shot modes</li>
+                                <li>Sound and visual feedback</li>
+                            </ul>
+                            <a href="#products" class="btn-primary">Get Access</a>
+                        </div>
+                    </div>
+
+                    <div class="feature-panel" id="recoil">
+                        <div class="feature-visual">
+                            <div class="feature-demo">
+                                <div class="demo-recoil">
+                                    <div class="recoil-pattern"></div>
+                                    <div class="recoil-compensation"></div>
+                                </div>
+                                <div class="demo-text">Recoil Control</div>
+                            </div>
+                        </div>
+                        <div class="feature-info">
+                            <h3>Recoil Control System</h3>
+                            <p>Master weapon recoil with our advanced compensation system:</p>
+                            <ul>
+                                <li>Weapon-specific recoil patterns</li>
+                                <li>Real-time compensation</li>
+                                <li>Custom pattern learning</li>
+                                <li>Spread and accuracy control</li>
+                                <li>Visual recoil removal</li>
+                            </ul>
+                            <a href="#products" class="btn-primary">Get Access</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>4EXT-CHEATS</h3>
+                    <p>Premium game modifications and cheat software for competitive multiplayer games.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-discord"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>Products</h4>
+                    <ul>
+                        <li><a href="roblox.html">Roblox Cheats</a></li>
+                        <li><a href="cs2.html">CS2 Cheats</a></li>
+                        <li><a href="#">More Coming Soon</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Support</h4>
+                    <ul>
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">Discord Server</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="#">FAQ</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Legal</h4>
+                    <ul>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Refund Policy</a></li>
+                        <li><a href="#">Disclaimer</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 4EXT-CHEATS. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- CounterAPI library for real active users -->
+    <script src="https://counterapi.com/c.js" async></script>
+
+    <!-- Real Active Users Counter (5 min window, unique users) -->
+    <div class="counterapi" 
+         id="real-active-users"
+         label="Active Users" 
+         timeline="5m" 
+         unique="true" 
+         color="#fff" 
+         bg="#23234b" 
+         icon="eye" 
+         noLink="true" 
+         style="font-size:1.5rem;min-width:100px;text-align:center;margin: 0 auto 2rem auto; border-radius: 12px; box-shadow: 0 4px 24px #18182855; padding: 0.7rem 1.5rem; display: inline-block;">
+    </div>
+
+    <!-- Load EmailJS before any script that uses it -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+
+    <!-- Remove local jQuery reference if present, or use CDN if needed -->
+    <!-- <script src="jquery.min.js"></script> -->
+    <!-- If you need jQuery, uncomment the next line: -->
+    <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
+
+    <script src="script.js"></script>
+</body>
+</html> 
