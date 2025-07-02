@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Panel - 4EXT Forum</title>
+  <style>
+    body { background: #f4f4f4; color: #222; font-family: Arial, sans-serif; }
+    .admin-container { max-width: 700px; margin: 2em auto; background: #fff; border-radius: 8px; box-shadow: 0 2px 8px #0001; padding: 2em; }
+    .admin-title { font-size: 1.7em; font-weight: bold; margin-bottom: 1.2em; }
+    table { width: 100%; border-collapse: collapse; margin-bottom: 2em; }
+    th, td { border: 1px solid #ccc; padding: 0.7em 1em; text-align: left; }
+    th { background: #eee; }
+    tr:nth-child(even) { background: #f9f9f9; }
+    .admin-btn { padding: 0.4em 1em; margin-right: 0.5em; border: 1px solid #888; background: #eee; color: #222; border-radius: 4px; cursor: pointer; font-size: 1em; }
+    .admin-btn:hover { background: #ddd; }
+    .admin-danger { background: #ffdddd; color: #a00; border: 1px solid #a00; }
+    .admin-danger:hover { background: #ffcccc; }
+    .admin-warning { color: #a00; font-weight: bold; margin-top: 1em; }
+    .admin-login { max-width: 350px; margin: 2em auto; background: #fff; border-radius: 8px; box-shadow: 0 2px 8px #0001; padding: 2em; }
+    .admin-login input { width: 100%; padding: 0.7em 1em; border-radius: 4px; border: 1px solid #ccc; background: #fafafa; color: #222; font-size: 1em; margin-bottom: 1em; }
+    .admin-login-btn { width: 100%; padding: 0.7em 0; border-radius: 4px; background: #eee; color: #222; font-weight: bold; font-size: 1em; border: 1px solid #888; cursor: pointer; }
+    .admin-login-btn:hover { background: #ddd; }
+    .admin-notif { margin-bottom: 1em; color: #a00; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <div class="admin-container" id="admin-app" style="display:none;"></div>
+  <form class="admin-login" id="admin-login-form">
+    <div style="font-size:1.2em;font-weight:bold;margin-bottom:1em;">Admin Login</div>
+    <input type="text" id="admin-username" placeholder="Admin Username" autocomplete="username">
+    <input type="password" id="admin-password" placeholder="Password" autocomplete="current-password">
+    <button type="submit" class="admin-login-btn">Login</button>
+    <div id="admin-login-error" class="admin-notif" style="display:none;"></div>
+  </form>
+  <script>
+    const API_BASE = 'http://localhost:3001';
+    // --- Admin Auth (placeholder, replace with real check) ---
+    const ADMIN_USER = 'admin';
+    const ADMIN_PASS = 'admin123';
+    document.getElementById('admin-login-form').onsubmit = function(e) {
+      e.preventDefault();
+      const u = document.getElementById('admin-username').value.trim();
+      const p = document.getElementById('admin-password').value;
+      if (u === ADMIN_USER && p === ADMIN_PASS) {
+        document.getElementById('admin-login-form').style.display = 'none';
+        document.getElementById('admin-app').style.display = '';
+        renderAdminPanel();
+      } else {
+        document.getElementById('admin-login-error').textContent = 'Invalid admin credentials.';
+        document.getElementById('admin-login-error').style.display = '';
+      }
+    };
+    // --- Admin Panel UI ---
+    async function renderAdminPanel() {
+      const app = document.getElementById('admin-app');
+      app.innerHTML = `<div class="admin-title">Admin Panel</div>
+        <div id="admin-notif"></div>
+        <table>
+          <thead><tr><th>Username</th><th>UID</th><th>Actions</th></tr></thead>
+          <tbody id="admin-members-list"><tr><td colspan="3">Loading...</td></tr></tbody>
+        </table>
+        <button class="admin-btn admin-danger" id="admin-delete-all-accounts">Delete ALL Accounts</button>
+        <div class="admin-warning">Warning: This will permanently delete all user accounts. This action cannot be undone.</div>
+      `;
+      // Fetch members
+      let users = [];
+      try {
+        const res = await fetch(`${API_BASE}/api/users`);
+        users = await res.json();
+      } catch {
+        document.getElementById('admin-members-list').innerHTML = '<tr><td colspan="3">Failed to load users.</td></tr>';
+        return;
+      }
+      const list = document.getElementById('admin-members-list');
+      list.innerHTML = '';
+      users.forEach(user => {
+        const tr = document.createElement('tr');
+        let banInfo = '';
+        if (user.banned && user.banExpiresAt) {
+          banInfo = `<span title="Banned until ${new Date(user.banExpiresAt).toLocaleString()}" style="color:#ff6b6b;font-weight:bold;">✔ Timed</span>`;
+        }
+        tr.innerHTML = `<td>${user.username}</td><td>${user.uid}</td><td>
+          <button class="admin-btn" onclick="deleteMember('${user.username}')">Delete Member</button>
+          <button class="admin-btn" onclick="deleteProfilePosts('${user.username}')">Delete Profile Posts</button>
+          <button class="admin-btn" onclick="deleteShoutboxMessages('${user.username}')">Delete Shoutbox</button>
+          ${user.banned ? `<button class="admin-btn" style="background:#e0e0e0;color:#27ca3f;border:1px solid #27ca3f;" onclick="unbanUser('${user.username}')">Unban</button> ${banInfo}` : `<button class="admin-btn admin-danger" onclick="banUser('${user.username}')">Ban</button>`}
+        </td>`;
+        list.appendChild(tr);
+      });
+      document.getElementById('admin-delete-all-accounts').onclick = function() {
+        if (confirm('Are you sure you want to delete ALL accounts? This cannot be undone!')) {
+          fetch(`${API_BASE}/api/delete-all-accounts`, { method: 'POST' })
+            .then(res => res.json())
+            .then(data => {
+              alert(data.success ? 'All accounts deleted.' : (data.error || 'Failed to delete all accounts.'));
+              renderAdminPanel();
+            })
+            .catch(() => alert('Failed to delete all accounts.'));
+        }
+      };
+      // Add Delete All Messages button
+      if (!document.getElementById('admin-delete-all-messages')) {
+        const btn = document.createElement('button');
+        btn.className = 'admin-btn admin-danger';
+        btn.id = 'admin-delete-all-messages';
+        btn.textContent = 'Delete ALL Shoutbox Messages';
+        btn.onclick = function() {
+          if (confirm('Delete ALL shoutbox messages? This cannot be undone!')) {
+            fetch(`${API_BASE}/api/messages`, { method: 'DELETE' })
+              .then(res => res.json())
+              .then(data => {
+                alert(data.success ? 'All shoutbox messages deleted.' : (data.error || 'Failed to delete messages.'));
+                renderAdminPanel();
+              })
+              .catch(() => alert('Failed to delete messages.'));
+          }
+        };
+        app.appendChild(btn);
+      }
+    }
+    // --- Admin Actions ---
+    window.deleteMember = function(username) {
+      if (confirm(`Delete user '${username}'? This cannot be undone!`)) {
+        fetch(`${API_BASE}/api/delete-member`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username })
+        })
+        .then(res => res.json())
+        .then(data => {
+          alert(data.success ? `User '${username}' deleted.` : (data.error || 'Failed to delete user.'));
+          renderAdminPanel();
+        })
+        .catch(() => alert('Failed to delete user.'));
+      }
+    };
+    window.deleteProfilePosts = function(username) {
+      if (confirm(`Delete ALL profile posts for '${username}'?`)) {
+        fetch(`${API_BASE}/api/delete-profile-posts`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username })
+        })
+        .then(res => res.json())
+        .then(data => {
+          alert(data.success ? `All profile posts for '${username}' deleted.` : (data.error || 'Failed to delete profile posts.'));
+        })
+        .catch(() => alert('Failed to delete profile posts.'));
+      }
+    };
+    window.deleteShoutboxMessages = function(username) {
+      if (confirm(`Delete ALL shoutbox messages for '${username}'?`)) {
+        fetch(`${API_BASE}/api/delete-shoutbox-messages`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username })
+        })
+        .then(res => res.json())
+        .then(data => {
+          alert(data.success ? `All shoutbox messages for '${username}' deleted.` : (data.error || 'Failed to delete shoutbox messages.'));
+        })
+        .catch(() => alert('Failed to delete shoutbox messages.'));
+      }
+    };
+    window.banUser = function(username) {
+      let reason = prompt(`Ban user '${username}'?\nEnter a reason for the ban:`);
+      if (reason !== null) {
+        let duration = prompt('Ban duration? (e.g. 30m, 2h, 1d, leave blank for permanent)');
+        fetch(`${API_BASE}/api/ban-user`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username, reason, duration })
+        })
+        .then(res => res.json())
+        .then(data => {
+          alert(data.success ? `User '${username}' banned.\nReason: ${reason}` : (data.error || 'Failed to ban user.'));
+          renderAdminPanel();
+        })
+        .catch(() => alert('Failed to ban user.'));
+      }
+    };
+    window.unbanUser = function(username) {
+      if (confirm(`Unban user '${username}'?`)) {
+        fetch(`${API_BASE}/api/unban-user`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username })
+        })
+        .then(res => res.json())
+        .then(data => {
+          alert(data.success ? `User '${username}' unbanned.` : (data.error || 'Failed to unban user.'));
+          renderAdminPanel();
+        })
+        .catch(() => alert('Failed to unban user.'));
+      }
+    };
+  </script>
+</body>
+</html> 

@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profile</title>
+  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    body {
+      background: linear-gradient(120deg, #23262e 0%, #181a20 100%);
+      color: #fff;
+      font-family: 'Inter', Arial, sans-serif;
+      min-height: 100vh;
+      margin: 0;
+    }
+    .profile-main {
+      max-width: 900px;
+      margin: 48px auto 0 auto;
+      display: flex;
+      gap: 32px;
+      align-items: flex-start;
+    }
+    .profile-card {
+      background: #20212a;
+      border-radius: 18px;
+      box-shadow: 0 4px 32px #0008;
+      padding: 2.2em 2.5em 1.5em 2.5em;
+      min-width: 340px;
+      flex: 1 1 0;
+      border: 2px solid #23262e;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    .profile-pfp {
+      width: 110px;
+      height: 110px;
+      border-radius: 16px;
+      background: #23262e;
+      border: 2.5px solid #7f9cf5;
+      object-fit: cover;
+      margin-bottom: 1.2em;
+    }
+    .profile-username {
+      font-size: 2.1em;
+      font-weight: 800;
+      margin-bottom: 0.2em;
+      letter-spacing: 0.5px;
+      color: #fff;
+    }
+    .profile-badge {
+      display: inline-block;
+      background: #353945;
+      color: #7f9cf5;
+      font-size: 0.98em;
+      font-weight: 700;
+      border-radius: 6px;
+      padding: 2px 12px;
+      margin-bottom: 0.7em;
+      margin-left: 0.5em;
+    }
+    .profile-meta {
+      color: #bfc3d1;
+      font-size: 1.08em;
+      margin-bottom: 0.7em;
+    }
+    .profile-actions {
+      display: flex;
+      gap: 1em;
+      margin-bottom: 1.2em;
+    }
+    .profile-action-btn {
+      background: #23262e;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 0.7em 1.5em;
+      font-size: 1em;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.18s, color 0.18s;
+    }
+    .profile-action-btn:hover {
+      background: #353945;
+      color: #7f9cf5;
+    }
+    .profile-tabs {
+      display: flex;
+      gap: 2em;
+      margin-bottom: 1.2em;
+      border-bottom: 2px solid #23262e;
+      width: 100%;
+    }
+    .profile-tab {
+      font-size: 1.08em;
+      font-weight: 700;
+      color: #888;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0.7em 0.5em 0.7em 0.5em;
+      border-bottom: 3px solid transparent;
+      transition: color 0.18s, border 0.18s;
+    }
+    .profile-tab.active {
+      color: #7f9cf5;
+      border-bottom: 3px solid #7f9cf5;
+    }
+    .profile-post-box {
+      background: #23262e;
+      border-radius: 12px;
+      padding: 1.1em 1.5em;
+      display: flex;
+      align-items: center;
+      gap: 1em;
+      margin-bottom: 1em;
+      border: 1.5px solid #353945;
+    }
+    .profile-post-pfp {
+      width: 44px;
+      height: 44px;
+      border-radius: 8px;
+      background: #353945;
+      object-fit: cover;
+    }
+    .profile-post-input {
+      flex: 1;
+      background: #181a20;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 0.8em 1em;
+      font-size: 1.08em;
+      outline: none;
+    }
+    .profile-post-btn {
+      background: linear-gradient(135deg, #667eea 0%, #ff6b6b 100%);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 0.7em 1.5em;
+      font-size: 1em;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.18s;
+    }
+    .profile-post-btn:hover {
+      background: linear-gradient(135deg, #ff6b6b 0%, #667eea 100%);
+    }
+    .profile-no-posts {
+      color: #888;
+      font-size: 1.08em;
+      margin-top: 1.2em;
+      background: #23262e;
+      border-radius: 8px;
+      padding: 0.7em 1em;
+      border: 1.5px solid #353945;
+    }
+    @media (max-width: 1000px) {
+      .profile-main {
+        flex-direction: column;
+        gap: 18px;
+        max-width: 98vw;
+      }
+    }
+    /* --- Profile Bar (top right) --- */
+    .user-profile-bar {
+      position: fixed;
+      top: 0;
+      right: 0;
+      z-index: 2000;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 18px 32px 0 0;
+    }
+    .user-profile-bar .username {
+      font-weight: 600;
+      color: #fff;
+      font-size: 1.08em;
+      background: #23262e;
+      padding: 6px 16px;
+      border-radius: 8px 0 0 8px;
+      letter-spacing: 0.2px;
+      box-shadow: 0 2px 8px #0003;
+    }
+    .user-profile-bar .pfp {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: #23262e;
+      border: 2px solid #7f9cf5;
+      object-fit: cover;
+      cursor: pointer;
+      transition: box-shadow 0.2s;
+    }
+    .user-profile-bar .pfp:hover {
+      box-shadow: 0 0 0 3px #7f9cf5;
+    }
+    .profile-dropdown {
+      position: absolute;
+      top: 60px;
+      right: 32px;
+      background: #23262e;
+      border-radius: 10px;
+      box-shadow: 0 4px 24px #0008;
+      min-width: 160px;
+      padding: 0.5rem 0;
+      display: none;
+      flex-direction: column;
+      z-index: 3000;
+      animation: fadeIn 0.2s;
+    }
+    .profile-dropdown.show {
+      display: flex;
+    }
+    .profile-dropdown button {
+      background: none;
+      border: none;
+      color: #e53e3e;
+      font-weight: 700;
+      font-size: 1em;
+      padding: 12px 24px;
+      text-align: left;
+      cursor: pointer;
+      border-radius: 8px;
+      transition: background 0.2s;
+    }
+    .profile-dropdown button:hover {
+      background: #3a2a2a;
+    }
+    /* --- Profile Reply UI --- */
+    .profile-reply-bar {
+      display: flex;
+      align-items: center;
+      gap: 0.7em;
+      background: #181a20;
+      border-radius: 8px;
+      padding: 0.7em 1em;
+      margin: 0.7em 0 0.2em 0;
+      border: 1.5px solid #23262e;
+    }
+    .profile-reply-pfp {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: #23262e;
+      border: 2px solid #7f9cf5;
+      object-fit: cover;
+    }
+    .profile-reply-input {
+      flex: 1;
+      background: #23262e;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 0.7em 1em;
+      font-size: 1.05em;
+      outline: none;
+      margin-right: 0.5em;
+    }
+    .profile-reply-btn {
+      background: linear-gradient(135deg, #667eea 0%, #ff6b6b 100%);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 0.6em 1.2em;
+      font-size: 1em;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.5em;
+      transition: background 0.18s;
+    }
+    .profile-reply-btn:hover {
+      background: linear-gradient(135deg, #ff6b6b 0%, #667eea 100%);
+    }
+    .profile-reply-box {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.8em;
+      background: #181a20;
+      border-radius: 8px;
+      border: 1.5px solid #23262e;
+      margin: 0.5em 0 0.5em 2.5em;
+      padding: 0.7em 1em;
+      box-shadow: 0 2px 8px #0002;
+      animation: fadeIn 0.18s;
+    }
+    .profile-reply-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 0.2em;
+    }
+    .profile-reply-meta {
+      display: flex;
+      align-items: center;
+      gap: 0.7em;
+      font-size: 0.97em;
+    }
+    .profile-reply-author {
+      font-weight: 700;
+      color: #7f9cf5;
+    }
+    .profile-reply-time {
+      color: #888;
+      font-size: 0.97em;
+    }
+    .profile-reply-body {
+      color: #fff;
+      font-size: 1.08em;
+      margin-top: 2px;
+      word-break: break-word;
+    }
+  </style>
+</head>
+<body>
+  <div class="profile-main">
+    <div class="profile-card">
+      <img class="profile-pfp" id="profile-pfp" src="https://ui-avatars.com/api/?name=User&background=7f9cf5&color=fff&rounded=true&size=128" alt="Profile Picture">
+      <div class="profile-username" id="profile-username">Username</div>
+      <span class="profile-badge">Member</span>
+      <div class="profile-meta" id="profile-meta">
+        New member<br>
+        Joined: <span id="profile-joined">-</span><br>
+        Last seen: <span id="profile-lastseen">-</span>
+      </div>
+      <div style="margin-top:1.2em;"></div>
+    </div>
+    <div style="flex:2;min-width:320px;">
+      <div class="profile-tabs">
+        <button class="profile-tab active">Profile posts</button>
+      </div>
+      <div class="profile-post-box" id="profile-post-box">
+        <img class="profile-post-pfp" id="profile-post-pfp" src="https://ui-avatars.com/api/?name=4E&background=353945&color=fff&rounded=true&size=64" alt="pfp">
+        <input class="profile-post-input" id="profile-post-input" placeholder="Write something...">
+        <button class="profile-post-btn" id="profile-post-btn">Post</button>
+      </div>
+      <div id="profile-posts-list"></div>
+    </div>
+  </div>
+  <div id="profile-bar-root"></div>
+  <script>
+    if (!localStorage.getItem('forumCurrentUser')) {
+      window.location.href = 'forum/forum.html';
+    }
+    const API_BASE = 'http://localhost:3001';
+    function getQueryParam(name) {
+      const url = new URL(window.location.href);
+      return url.searchParams.get(name);
+    }
+    // Support username.UID format
+    function parseUserParam() {
+      const raw = getQueryParam('user');
+      if (!raw) return { username: null, uid: null };
+      const m = raw.match(/^([^.]+)\.(\d+)$/);
+      if (m) return { username: m[1], uid: parseInt(m[2]) };
+      return { username: null, uid: null };
+    }
+    const { username, uid } = parseUserParam();
+    // --- Auth ---
+    function getCurrentUser() {
+      return localStorage.getItem('forumCurrentUser');
+    }
+    // --- Render Profile ---
+    async function renderProfile() {
+      if (!uid) {
+        document.body.innerHTML = '<div style="color:#fff;font-size:1.3em;padding:2em;max-width:600px;margin:60px auto;">User not found.</div>';
+        document.title = 'User not found - Profile';
+        return;
+      }
+      let userData = null;
+      try {
+        const res = await fetch(`${API_BASE}/api/user-by-uid/${uid}`);
+        if (!res.ok) throw new Error('User not found');
+        userData = await res.json();
+        // If the username in the URL does not match the backend, update the URL
+        const urlUsername = (window.location.search.match(/user=([^.]+)/) || [])[1];
+        if (userData.username && urlUsername && userData.username !== urlUsername) {
+          const newUrl = `${window.location.pathname}?user=${userData.username}.${userData.uid}`;
+          window.history.replaceState({}, '', newUrl);
+        }
+      } catch (e) {
+        document.body.innerHTML = '<div style="color:#fff;font-size:1.3em;padding:2em;max-width:600px;margin:60px auto;">User not found.</div>';
+        document.title = 'User not found - Profile';
+        console.error('User not found:', e);
+        return;
+      }
+      // Render profile info
+      document.getElementById('profile-username').textContent = userData.username;
+      document.getElementById('profile-pfp').src = `https://ui-avatars.com/api/?name=${encodeURIComponent(userData.username)}&background=7f9cf5&color=fff&rounded=true&size=128`;
+      document.getElementById('profile-joined').textContent = userData.joinDate;
+      document.getElementById('profile-lastseen').textContent = userData.lastSeen;
+      window.profileUid = userData.uid;
+      window.profileUsername = userData.username;
+      // Load posts
+      loadProfilePosts(userData);
+    }
+    // --- Profile Posts ---
+    async function loadProfilePosts(userData) {
+      const list = document.getElementById('profile-posts-list');
+      if (!list) return;
+      list.innerHTML = '<div style="color:#888;font-size:1.08em;">Loading...</div>';
+      try {
+        let res, posts;
+        if (userData && userData.uid) {
+          res = await fetch(`${API_BASE}/api/profile-posts-by-uid/${userData.uid}`);
+          posts = await res.json();
+        } else {
+          list.innerHTML = '<div class="profile-no-posts">User not found.</div>';
+          return;
+        }
+        if (!posts.length) {
+          list.innerHTML = '<div class="profile-no-posts">There are no messages on this profile yet.</div>';
+          return;
+        }
+        list.innerHTML = posts.map(post => renderProfilePost(post)).join('');
+        posts.forEach(post => attachReplyEvents(post.id));
+      } catch (e) {
+        if (list) list.innerHTML = '<div class="profile-no-posts">Failed to load posts.</div>';
+        console.error('Failed to load posts:', e);
+      }
+    }
+    function renderProfilePost(post) {
+      return `
+        <div class="profile-post-box" style="flex-direction:column;align-items:stretch;margin-bottom:1.2em;">
+          <div style="display:flex;align-items:center;gap:1em;">
+            <img class="profile-post-pfp" src="https://ui-avatars.com/api/?name=${encodeURIComponent(post.author)}&background=353945&color=fff&rounded=true&size=64" alt="pfp">
+            <div style="font-weight:700;color:#fff;">${escapeHTML(post.author)}</div>
+            <div style="color:#888;font-size:0.98em;margin-left:auto;">${timeAgo(new Date(post.createdAt))}</div>
+          </div>
+          <div style="margin:0.7em 0 0.5em 0;font-size:1.08em;">${escapeHTML(post.body)}</div>
+          <div id="replies-${post.id}">
+            ${(post.replies||[]).map(reply => renderProfileReply(reply)).join('')}
+          </div>
+          <div class="profile-reply-bar">
+            <img class="profile-reply-pfp" src="https://ui-avatars.com/api/?name=${encodeURIComponent(getCurrentUser()||'User')}&background=7f9cf5&color=fff&rounded=true&size=40" alt="pfp">
+            <input class="profile-reply-input" id="reply-input-${post.id}" placeholder="Write a reply...">
+            <button class="profile-reply-btn" id="reply-btn-${post.id}"><i class="fas fa-reply"></i> Reply</button>
+          </div>
+        </div>
+      `;
+    }
+    function renderProfileReply(reply) {
+      return `
+        <div class="profile-reply-box">
+          <img class="profile-reply-pfp" src="https://ui-avatars.com/api/?name=${encodeURIComponent(reply.author)}&background=353945&color=fff&rounded=true&size=36" alt="pfp">
+          <div class="profile-reply-content">
+            <div class="profile-reply-meta">
+              <span class="profile-reply-author">${escapeHTML(reply.author)}</span>
+              <span class="profile-reply-time">${timeAgo(new Date(reply.createdAt))}</span>
+            </div>
+            <div class="profile-reply-body">${escapeHTML(reply.body)}</div>
+          </div>
+        </div>
+      `;
+    }
+    function attachReplyEvents(postId) {
+      const btn = document.getElementById(`reply-btn-${postId}`);
+      const input = document.getElementById(`reply-input-${postId}`);
+      if (!btn || !input) return;
+      if (!getCurrentUser()) {
+        btn.disabled = true;
+        input.disabled = true;
+        input.placeholder = 'Login to reply...';
+        return;
+      }
+      if (!window.profileUsername) {
+        alert('Profile not loaded. Please refresh the page.');
+        return;
+      }
+      btn.onclick = async function() {
+        const body = input.value.trim();
+        if (!body) return;
+        btn.disabled = true;
+        try {
+          await fetch(`${API_BASE}/api/profile-reply/${encodeURIComponent(window.profileUsername)}/${postId}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ author: getCurrentUser(), body })
+          });
+          input.value = '';
+          await renderProfile();
+        } catch (e) {
+          alert('Failed to reply. Please try again.');
+        }
+        btn.disabled = false;
+      };
+    }
+    // --- Post on Profile ---
+    const postBtn = document.getElementById('profile-post-btn');
+    const postInput = document.getElementById('profile-post-input');
+    const postPfp = document.getElementById('profile-post-pfp');
+    function updatePostBoxState() {
+      const user = getCurrentUser();
+      if (!user) {
+        postBtn.disabled = true;
+        postInput.disabled = true;
+        postInput.placeholder = 'Login to post...';
+        postPfp.src = `https://ui-avatars.com/api/?name=4E&background=353945&color=fff&rounded=true&size=64`;
+      } else {
+        postBtn.disabled = false;
+        postInput.disabled = false;
+        postInput.placeholder = 'Write something...';
+        postPfp.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(user)}&background=353945&color=fff&rounded=true&size=64`;
+      }
+    }
+    postBtn.onclick = async function() {
+      const body = postInput.value.trim();
+      if (!body || postBtn.disabled) return;
+      if (!window.profileUsername) {
+        alert('Profile not loaded. Please refresh the page.');
+        return;
+      }
+      postBtn.disabled = true;
+      try {
+        await fetch(`${API_BASE}/api/profile-posts/${encodeURIComponent(window.profileUsername)}`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ author: getCurrentUser(), body })
+        });
+        postInput.value = '';
+        await renderProfile();
+      } catch (e) {
+        alert('Failed to post. Please try again.');
+      }
+      postBtn.disabled = false;
+    };
+    // --- Utility ---
+    function escapeHTML(str) {
+      return (str||'').replace(/[&<>"]|'/g, function(tag) {
+        const chars = {
+          '&': '&amp;',
+          '<': '&lt;',
+          '>': '&gt;',
+          '"': '&quot;',
+          "'": '&#39;'
+        };
+        return chars[tag] || tag;
+      });
+    }
+    function timeAgo(date) {
+      const now = new Date();
+      const seconds = Math.floor((now - date) / 1000);
+      if (seconds < 60) return `${seconds}s ago`;
+      const minutes = Math.floor(seconds / 60);
+      if (minutes < 60) return `${minutes}m ago`;
+      const hours = Math.floor(minutes / 60);
+      if (hours < 24) return `${hours}h ago`;
+      const days = Math.floor(hours / 24);
+      return `${days}d ago`;
+    }
+    // --- Top right profile bar (modern, styled, dropdown, top right) ---
+    function renderProfileBar() {
+      const user = getCurrentUser();
+      if (!user) return '';
+      const bar = document.createElement('div');
+      bar.className = 'user-profile-bar';
+      bar.innerHTML = `
+        <span class="username">${escapeHTML(user)}</span>
+        <img src="https://ui-avatars.com/api/?name=${encodeURIComponent(user)}&background=7f9cf5&color=fff&rounded=true&size=64" class="pfp" id="profile-pfp-bar" alt="Profile Picture">
+        <div class="profile-dropdown" id="profile-dropdown">
+          <button id="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</button>
+        </div>
+      `;
+      setTimeout(() => attachProfileBarEvents(), 0);
+      return bar;
+    }
+    function attachProfileBarEvents() {
+      const pfp = document.getElementById('profile-pfp-bar');
+      const dropdown = document.getElementById('profile-dropdown');
+      const logoutBtn = document.getElementById('logout-btn');
+      if (pfp) {
+        pfp.onclick = function(e) {
+          e.stopPropagation();
+          dropdown.classList.toggle('show');
+        };
+      }
+      if (logoutBtn) {
+        logoutBtn.onclick = function() {
+          localStorage.removeItem('forumCurrentUser');
+          window.location.reload();
+        };
+      }
+      document.body.onclick = function() {
+        dropdown.classList.remove('show');
+      };
+      dropdown.onclick = function(e) { e.stopPropagation(); };
+    }
+    // --- Patch all profile links to use username.uid format ---
+    function patchProfileLinks() {
+      setTimeout(() => {
+        const allLinks = document.querySelectorAll('a.profile-link');
+        allLinks.forEach(link => {
+          const name = link.textContent;
+          // Find the UID for this username (from window.profileUid if it's the current profile, else skip if not found)
+          let uid = null;
+          if (name === window.profileUsername) uid = window.profileUid;
+          // If not current profile, try to get from data-uid attribute (future-proof)
+          if (!uid && link.dataset.uid) uid = link.dataset.uid;
+          if (uid) link.href = `/profile.html?user=${encodeURIComponent(name)}.${uid}`;
+        });
+      }, 0);
+    }
+    // --- INIT ---
+    updatePostBoxState();
+    renderProfile();
+    setInterval(renderProfile, 5000);
+    window.addEventListener('storage', updatePostBoxState);
+    // Render the profile bar if logged in
+    const profileBarRoot = document.getElementById('profile-bar-root');
+    if (getCurrentUser() && profileBarRoot) {
+      profileBarRoot.appendChild(renderProfileBar());
+    }
+    // Patch profile links after rendering posts
+    setInterval(patchProfileLinks, 1000);
+  </script>
+</body>
+</html> 
