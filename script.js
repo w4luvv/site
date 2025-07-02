@@ -60,7 +60,7 @@ featureTabs.forEach(tab => {
     });
 });
 
-// Product Card Hover Effects
+
 document.querySelectorAll('.product-card').forEach(card => {
     card.addEventListener('mouseenter', () => {
         card.style.transform = card.classList.contains('featured') 
@@ -80,157 +80,15 @@ let totalPurchases = parseInt(localStorage.getItem('totalPurchases')) || 0;
 let robloxPurchases = parseInt(localStorage.getItem('robloxPurchases')) || 0;
 let cs2Purchases = parseInt(localStorage.getItem('cs2Purchases')) || 0;
 
-// REAL Active Users Counter - NO SIMULATION
-let activeUsers = 0;
-let userSessions = JSON.parse(localStorage.getItem('userSessions')) || [];
-const currentSessionId = Date.now().toString(36) + Math.random().toString(36).substr(2, 9);
-const currentUserId = generateUserId();
-
-const activeUsersElement = document.getElementById('active-users');
-const totalPurchasesElement = document.getElementById('total-purchases');
-
-// Generate unique user ID
-function generateUserId() {
-    let userId = localStorage.getItem('userId');
-    if (!userId) {
-        userId = 'user_' + Date.now().toString(36) + Math.random().toString(36).substr(2, 5);
-        localStorage.setItem('userId', userId);
-    }
-    return userId;
-}
-
-// Initialize REAL active users system
-function initializeActiveUsers() {
-    // Clean old sessions (older than 5 minutes for real-time accuracy)
-    const fiveMinutesAgo = Date.now() - (5 * 60 * 1000);
-    userSessions = userSessions.filter(session => session.lastActivity > fiveMinutesAgo);
-    
-    // Add current session
-    const currentSession = {
-        id: currentSessionId,
-        userId: currentUserId,
-        startTime: Date.now(),
-        lastActivity: Date.now(),
-        userAgent: navigator.userAgent,
-        referrer: document.referrer || 'direct'
-    };
-    userSessions.push(currentSession);
-    
-    // Calculate REAL active users (unique users in last 5 minutes)
-    const uniqueUsers = new Set(userSessions.map(session => session.userId));
-    activeUsers = uniqueUsers.size;
-    
-    // Save to localStorage
-    localStorage.setItem('userSessions', JSON.stringify(userSessions));
-    
-    // Update display with REAL count
-    if (activeUsersElement) {
-        animateCounter(activeUsersElement, activeUsers, 1000);
-    }
-    
-    // Start REAL updates
-    startRealTimeUpdates();
-}
-
-// Start REAL time updates
-function startRealTimeUpdates() {
-    // Update every 30 seconds for real accuracy
-    setInterval(() => {
-        updateUserActivity();
-    }, 30000);
-}
-
-// Update REAL user activity
-function updateUserActivity() {
-    // Update current session activity
-    const sessionIndex = userSessions.findIndex(session => session.id === currentSessionId);
-    if (sessionIndex !== -1) {
-        userSessions[sessionIndex].lastActivity = Date.now();
-        localStorage.setItem('userSessions', JSON.stringify(userSessions));
-    }
-    
-    // Clean old sessions (5 minutes)
-    const fiveMinutesAgo = Date.now() - (5 * 60 * 1000);
-    userSessions = userSessions.filter(session => session.lastActivity > fiveMinutesAgo);
-    
-    // Calculate REAL unique active users
-    const uniqueUsers = new Set(userSessions.map(session => session.userId));
-    activeUsers = uniqueUsers.size;
-    
-    // Update display with REAL count
-    if (activeUsersElement) {
-        animateCounter(activeUsersElement, activeUsers, 500);
-    }
-}
-
-function updateMostBought() {
-    const robloxCard = document.getElementById('roblox-card');
-    const cs2Card = document.getElementById('cs2-card');
-    
-    if (!robloxCard || !cs2Card) return;
-    
-    // Remove most-bought class from both cards
-    robloxCard.querySelector('.product-badge').classList.remove('most-bought');
-    cs2Card.querySelector('.product-badge').classList.remove('most-bought');
-    
-    // Add most-bought class to the product with more purchases
-    if (robloxPurchases > cs2Purchases) {
-        robloxCard.querySelector('.product-badge').classList.add('most-bought');
-        robloxCard.querySelector('.product-badge').textContent = 'Most Bought';
-    } else if (cs2Purchases > robloxPurchases) {
-        cs2Card.querySelector('.product-badge').classList.add('most-bought');
-        cs2Card.querySelector('.product-badge').textContent = 'Most Bought';
+// Navbar background on scroll
+window.addEventListener('scroll', () => {
+    const navbar = document.querySelector('.navbar');
+    if (window.scrollY > 100) {
+        navbar.style.background = 'rgba(10, 10, 10, 0.98)';
     } else {
-        // If equal, randomly choose one
-        const random = Math.random();
-        if (random < 0.5) {
-            robloxCard.querySelector('.product-badge').classList.add('most-bought');
-            robloxCard.querySelector('.product-badge').textContent = 'Most Bought';
-        } else {
-            cs2Card.querySelector('.product-badge').classList.add('most-bought');
-            cs2Card.querySelector('.product-badge').textContent = 'Most Bought';
-        }
-    }
-}
-
-function recordPurchase(product) {
-    totalPurchases++;
-    
-    // Save to localStorage
-    localStorage.setItem('totalPurchases', totalPurchases.toString());
-    
-    if (totalPurchasesElement) {
-        totalPurchasesElement.textContent = totalPurchases;
-    }
-    
-    if (product === 'Roblox Cheats') {
-        robloxPurchases++;
-        localStorage.setItem('robloxPurchases', robloxPurchases.toString());
-    } else if (product === 'CS2 Cheats') {
-        cs2Purchases++;
-        localStorage.setItem('cs2Purchases', cs2Purchases.toString());
-    }
-    
-    updateMostBought();
-}
-
-// Initialize active users system on page load
-document.addEventListener('DOMContentLoaded', () => {
-    initializeActiveUsers();
-    
-    // Update total purchases display
-    if (totalPurchasesElement) {
-        totalPurchasesElement.textContent = totalPurchases;
+        navbar.style.background = 'rgba(10, 10, 10, 0.95)';
     }
 });
-
-// Track user activity on various events
-document.addEventListener('click', updateUserActivity);
-document.addEventListener('scroll', updateUserActivity);
-document.addEventListener('mousemove', updateUserActivity);
-
-// Update most bought every second
-setInterval(updateMostBought, 1000);
 
 // Form handling
 const contactForm = document.querySelector('.contact-form form');
@@ -583,9 +441,6 @@ function processPurchase() {
   // Increment and save purchase count
   totalPurchases++;
   localStorage.setItem('totalPurchases', totalPurchases.toString());
-  if (totalPurchasesElement) {
-    totalPurchasesElement.textContent = totalPurchases;
-  }
   closePaymentPopup();
   showPaymentBlur();
   // Send email via EmailJS
@@ -668,4 +523,94 @@ categoryBtns.forEach(btn => {
       }
     });
   });
-}); 
+});
+
+function renderMessages() {
+  const list = document.getElementById('shoutbox-messages');
+  if (!list) return;
+  list.innerHTML = '';
+  messages.slice(-100).forEach((msg) => {
+    const isOwn = msg.author === getCurrentUser();
+    const isEditing = msg.id === editingMessageId;
+    const msgEl = document.createElement('div');
+    msgEl.className = 'shoutbox-message';
+    let bannedStyle = '';
+    let bannedName = '';
+    if (msg.banned) {
+      bannedStyle = 'opacity:0.5;position:relative;';
+      bannedName = `<span style=\"position:relative;display:inline-block;\"><span style='position:absolute;left:0;right:0;top:0;height:4px;background:repeating-linear-gradient(90deg,#ff3b3b,#ff3b3b 10px,transparent 10px,transparent 20px);border-radius:2px;z-index:2;'></span>`;
+    }
+    msgEl.innerHTML = `
+      <img src=\"${msg.banned ? 'https://cdn-icons-png.flaticon.com/512/1828/1828843.png' : DEFAULT_PFP}\" class=\"pfp\" alt=\"pfp\">
+      <div class=\"shoutbox-message-content\" style=\"${bannedStyle}\">
+        <div class=\"shoutbox-message-meta\">
+          ${msg.banned ? bannedName : ''}
+          <a href=\"/profile.html?user=${encodeURIComponent(msg.author || 'Anonymous')}\" class=\"profile-link\" target=\"_blank\" style=\"${msg.banned ? 'color:#ff3b3b;text-decoration:line-through;' : ''}\">${escapeHTML(msg.author || 'Anonymous')}</a>
+          ${msg.banned ? '</span>' : ''}
+          <span class=\"shoutbox-message-time\">${timeAgo(new Date(msg.createdAt))}</span>
+        </div>
+        <div class=\"shoutbox-message-body\">${isEditing ? '' : escapeHTML(msg.body)}</div>
+      </div>
+      ${isOwn && !isEditing ? `<button class=\"shoutbox-dots-btn\" title=\"Options\"><i class=\"fas fa-ellipsis-v\"></i></button>` : ''}
+      ${isEditing ? `
+        <input class=\"shoutbox-edit-input\" type=\"text\" value=\"${escapeHTML(msg.body)}\" maxlength=\"500\" style=\"width:100%;margin-top:4px;\">
+        <div style=\"margin-top:6px;display:flex;gap:8px;\">
+          <button class=\"shoutbox-edit-apply\" style=\"background:#7f9cf5;color:#fff;\">Apply</button>
+          <button class=\"shoutbox-edit-cancel\">Cancel</button>
+        </div>
+      ` : ''}
+    `;
+    // ... existing code ...
+  });
+}
+
+// --- Ban screen logic ---
+function showBanScreen(reason, expires) {
+  document.body.innerHTML = `<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100vh;background:#181a20;color:#fff;"><div style='font-size:2.2em;font-weight:900;margin-bottom:0.7em;color:#ff3b3b;'>Account Banned</div><div style='font-size:1.2em;margin-bottom:1.5em;'>You were banned by an admin.</div><div style='background:#23262e;padding:1.5em 2.5em;border-radius:14px;box-shadow:0 4px 32px #0008;max-width:90vw;font-size:1.1em;color:#ffb3b3;'>Reason: <b>${reason ? escapeHTML(reason) : 'No reason provided.'}</b>${expires ? `<br>Ban expires: <b>${new Date(expires).toLocaleString()}</b>` : ''}</div></div>`;
+  localStorage.removeItem('forumCurrentUser');
+  setTimeout(() => { window.location.reload(); }, 1500);
+}
+// --- Patch fetch to auto-logout and show ban screen if banned ---
+const origFetch = window.fetch;
+window.fetch = async function(...args) {
+  const res = await origFetch(...args);
+  if (res.status === 403) {
+    try {
+      const data = await res.clone().json();
+      if (data && data.error && data.error.includes('Banned')) {
+        showBanScreen(data.reason || '', data.expires);
+        throw new Error('Banned');
+      }
+    } catch {}
+  }
+  return res;
+};
+// --- Patch login to show ban screen ---
+async function login() {
+  hideAuthError();
+  const username = document.getElementById('login-username').value.trim();
+  const password = document.getElementById('login-password').value;
+  if (!username || !password) return showAuthError('Please enter your username and password.');
+  try {
+    const res = await fetch(`${API_BASE}/api/login`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username, password })
+    });
+    if (!res.ok) {
+      if (res.status === 401) return showAuthError('Invalid username or password.');
+      if (res.status === 403) {
+        const data = await res.json();
+        showBanScreen(data.reason || '', data.expires);
+        return;
+      }
+      if (res.status === 404) return showAuthError('User not found.');
+      return showAuthError('Login failed.');
+    }
+    setCurrentUser(username);
+    render();
+  } catch (e) { showAuthError('Login error.'); }
+}
+
+// In loadMessages and any profile post loading, if the current user is banned (i.e., a message or post with their username and banned=true), call showBanScreen(reason) and log them out immediately.
+// ... existing code ... 
